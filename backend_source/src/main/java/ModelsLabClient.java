@@ -46,36 +46,6 @@ public class ModelsLabClient {
         json.put("temp", false);
         json.put("watermark", "no");
         
-        /*
-         *     "base64": "no",
-    "enhance_prompt": "no",
-    "enhance_style": null,
-    "file_prefix": "89e8314c-418c-40d5-8aed-1823702b8cb3",
-    "guidance_scale": 1,
-    "height": 512,
-    "id": "157244430",
-    "init_image": "https://i.postimg.cc/XNDscypX/annime-jpeg.png",
-    "instant_response": "no",
-    "n_samples": 1,
-    "negative_prompt": "ugly, blurry, bad anatomy",
-    "opacity": 0.7,
-    "outdir": "out",
-    "padding_down": 10,
-    "padding_right": 10,
-    "pag_scale": 0.2,
-    "prompt": "realistic and epic",
-    "rescale": "yes",
-    "safety_checker": "no",
-    "safety_checker_type": "black",
-    "scale_down": 6,
-    "seed": 3555263009,
-    "strength": 0.95,
-    "temp": "no",
-    "track_id": null,
-    "watermark": "no",
-    "webhook": null,
-    "width": 512
-         */
         if (request.negativePrompt != null) {
             json.put("negative_prompt", request.negativePrompt);
         }
@@ -188,4 +158,3 @@ public class ModelsLabClient {
             }
         }
 }
-// ...existing code...
