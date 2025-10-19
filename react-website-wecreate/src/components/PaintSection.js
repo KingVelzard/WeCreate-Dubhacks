@@ -1,6 +1,9 @@
 import React, { useState, useRef, useEffect } from 'react';
 import './PaintSection.css';
 
+// Use environment variable for API URL
+const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:3001';
+
 function PaintSection() {
   const canvasRef = useRef(null);
   const [isDrawing, setIsDrawing] = useState(false);
@@ -141,8 +144,6 @@ function PaintSection() {
     setIsDrawing(false);
   };
 
-
-
   const clearCanvas = () => {
     const canvas = canvasRef.current;
     const ctx = canvas.getContext('2d');
@@ -152,7 +153,7 @@ function PaintSection() {
     setStatus('');
   };
 
-    const generateImage = async () => {
+  const generateImage = async () => {
     setIsProcessing(true);
     setStatus('Sending your drawing to ModelsLab...');
     setGeneratedImage('');
@@ -161,7 +162,8 @@ function PaintSection() {
         const canvas = canvasRef.current;
         const imageBase64 = canvas.toDataURL('image/png');
 
-        const apiResponse = await fetch('http://localhost:3001/api/generate', {
+        // Use API_URL variable instead of hardcoded localhost
+        const apiResponse = await fetch(`${API_URL}/api/generate`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
@@ -178,8 +180,8 @@ function PaintSection() {
             // Handle both string or array
             let imageData = Array.isArray(result.output) ? result.output[0] : result.output;
             
-            console.log('🔍 Image data type:', typeof imageData);
-            console.log('🔍 First 100 chars:', imageData.substring(0, 100));
+            console.log('📝 Image data type:', typeof imageData);
+            console.log('📝 First 100 chars:', imageData.substring(0, 100));
 
             // Clean up the base64 string
             imageData = imageData.trim();
@@ -211,7 +213,7 @@ function PaintSection() {
     } finally {
         setIsProcessing(false);
     }
-};
+  };
 
   const colors = ['#000000', '#FFFFFF', '#FF0000', '#00FF00', '#0000FF', '#FFFF00', '#FF00FF', '#00FFFF', '#FFA500', '#800080'];
 
@@ -313,7 +315,7 @@ function PaintSection() {
             />
             <span className="brush-value">{brushSize}px</span>
           </div>
-            <div className="prompt-control">
+          <div className="prompt-control">
             <span className="prompt-label">Prompt (optional):</span>
             <input
                 type="text"
@@ -322,7 +324,7 @@ function PaintSection() {
                 placeholder="e.g., oil painting, anime style, photorealistic..."
                 className="prompt-input"
             />
-            </div>
+          </div>
           {/* Canvas */}
           <div className="canvas-wrapper">
             <canvas
@@ -345,18 +347,18 @@ function PaintSection() {
           )}
 
           {/* Generated Image */}
-         {generatedImage && (
+          {generatedImage && (
             <div className="result-box">
                 <p className="result-title">Generated Result:</p>
                 <a href={generatedImage} target="_blank" rel="noopener noreferrer">
-                <img 
-                    src={generatedImage} 
-                    alt="Generated artwork" 
-                    className="result-image"
-                />
+                  <img 
+                      src={generatedImage} 
+                      alt="Generated artwork" 
+                      className="result-image"
+                  />
                 </a>
             </div>
-            )}
+          )}
         </div>
       </div>
     </div>
